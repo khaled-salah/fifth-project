@@ -1,0 +1,108 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_inherited_timesheet_tree2">
+            <field name="name">account.analytic.line</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='task_id']" position="after">
+                                    <field name="overtime" />
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="required">0</attribute>
+                    <!--<attribute name="default">"/"</attribute>-->
+                </xpath>
+
+                <xpath expr="//field[@name='unit_amount']" position="before">
+                                    <field name="state" />
+
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="my_view_inherited_timesheet_form3">
+            <field name="name">account.analytic.line</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_draft" type="object"
+                                string="Reset to draft"
+                                states="e"/>
+
+                        <button name="action_submit" type="object"
+                                string="Submit" states="a"
+                                class="oe_highlight"/>
+
+                        <button name="action_approve" type="object"
+                                string="Approve" states="b" groups="project.group_project_manager"
+                                class="oe_highlight"/>
+
+
+                        <button name="action_canccel" type="object"
+                                string="Reject" states="c,b" groups="project.group_project_manager"
+                                />
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+
+                </xpath>
+                <xpath expr="//field[@name='unit_amount']" position="after">
+                                    <field name="overtime"/>
+
+                </xpath>
+                 <xpath expr="//field[@name='amount']" position="replace">
+                </xpath>
+
+                 <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="required">0</attribute>
+                </xpath>
+
+
+
+                <xpath expr="//field[@name='project_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('state','=','c'),('state','=','d')]}</attribute>
+                </xpath>
+
+
+                <xpath expr="//field[@name='task_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('state','=','c'),('state','=','d')]}</attribute>
+                </xpath>
+
+                 <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('state','=','c'),('state','=','d')]}</attribute>
+                </xpath>
+
+                 <xpath expr="//field[@name='date']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('state','=','c'),('state','=','d')]}</attribute>
+                </xpath>
+
+                 <xpath expr="//field[@name='unit_amount']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('state','=','c'),('state','=','d')]}</attribute>
+                </xpath>
+
+                 <xpath expr="//field[@name='overtime']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('state','=','c'),('state','=','d')]}</attribute>
+                </xpath>
+
+
+                 <xpath expr="//sheet" position="after">
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </xpath>
+
+            </field>
+        </record>
+        <record id="hr_timesheet.act_hr_timesheet_line" model="ir.actions.act_window">
+            <field name="name">My Menu</field>
+            <field name="res_model">account.analytic.line</field>
+            <field name="context">{'default_name':"/"}</field>
+        </record>
+
+
+    </data>
+</odoo>
